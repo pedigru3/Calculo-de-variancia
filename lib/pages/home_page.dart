@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -43,55 +43,75 @@ class _HomePageState extends State<HomePage> {
     _nController.text = calc.listaX.length.toString();
     _glrController.text = '1';
 
-    return Column(
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: textFieldBuilder(
-                  'Quantidade Amostral', 'valor de n', _nController),
-            ),
-            Expanded(
-              child:
-                  textFieldBuilder('Grau de liberdade', 'GLR', _glrController),
-            ),
-          ],
-        ),
-        texFieldAndButtonBuilder('Adicione x', 'valor de x', _xController,
-            myFocusNodeX, myFocusNodeY, calc.addX),
-        texFieldAndButtonBuilder('Adicione y', 'valor de y', _yController,
-            myFocusNodeY, myFocusNodeX, calc.addY),
-        Row(
-          children: [
-            titleListBuilder('Lista de X'),
-            titleListBuilder('Lista de Y'),
-          ],
-        ),
-        Row(
-          children: [
-            listBuilder(calc.listaX),
-            listBuilder(calc.listaY),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            calc.isEqual() ? '' : 'As listas devem ser iguais!',
-            style: TextStyle(color: Colors.red),
+    return Padding(
+      padding: const EdgeInsets.only(top: 20, right: 16, left: 16),
+      child: Column(
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: textFieldBuilder(
+                    'Quantidade Amostral', 'valor de n', _nController),
+              ),
+              Expanded(
+                child: textFieldBuilder(
+                    'Grau de liberdade', 'GLR', _glrController),
+              ),
+            ],
           ),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            calc.n = int.tryParse(_nController.text);
-            calc.glRegressao = int.tryParse(_glrController.text);
-          },
-          child: const Text('Calcular'),
-          style: ElevatedButton.styleFrom(
-              fixedSize: Size(MediaQuery.of(context).size.width * 0.9, 2),
-              primary: Colors.black),
-        )
-      ],
+          texFieldAndButtonBuilder('Adicione x', 'valor de x', _xController,
+              myFocusNodeX, myFocusNodeY, calc.addX),
+          texFieldAndButtonBuilder('Adicione y', 'valor de y', _yController,
+              myFocusNodeY, myFocusNodeX, calc.addY),
+          Padding(
+            padding: const EdgeInsets.only(right: 16, left: 16, bottom: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        calc.n = int.tryParse(_nController.text);
+                        calc.glRegressao = int.tryParse(_glrController.text);
+                      },
+                      style: ElevatedButton.styleFrom(primary: Colors.black),
+                      child: const Text('Calcular'),
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    calc.removeAll();
+                  },
+                  child: Text('Limpar tudo'),
+                ),
+              ],
+            ),
+          ),
+          Divider(),
+          Row(
+            children: [
+              titleListBuilder('Lista de X'),
+              titleListBuilder('Lista de Y'),
+            ],
+          ),
+          Row(
+            children: [
+              listBuilder(calc.listaX),
+              listBuilder(calc.listaY),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              calc.isEqual() ? '' : 'As listas devem ser iguais!',
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -125,7 +145,7 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.only(right: 16),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            fixedSize: Size(20, 55),
+            fixedSize: const Size(20, 55),
           ),
           onPressed: () {
             setState(() {
@@ -134,7 +154,7 @@ class _HomePageState extends State<HomePage> {
               focusNodeOut.requestFocus();
             });
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
       ),
     ]);
@@ -143,12 +163,15 @@ class _HomePageState extends State<HomePage> {
   Widget titleListBuilder(String title) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.only(left: 20, right: 20, bottom: 2, top: 20),
-        color: Colors.blue[200],
+        margin: const EdgeInsets.only(left: 20, right: 20, bottom: 2, top: 20),
         child: ListTile(
           title: Text(
             title,
             textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Color.fromARGB(255, 9, 61, 103)),
           ),
         ),
       ),
@@ -158,13 +181,12 @@ class _HomePageState extends State<HomePage> {
   Widget listBuilder(List calcList) {
     return Expanded(
       child: ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: calcList.length,
           itemBuilder: (context, index) {
             return Container(
-              margin: EdgeInsets.symmetric(vertical: 2, horizontal: 20),
-              color: Colors.blue[100],
+              margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
               child: ListTile(
                 title: Text(
                   '${calcList[index]}',

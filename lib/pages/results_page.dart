@@ -11,44 +11,42 @@ class ResultsPage extends StatelessWidget {
     final calc = Provider.of<CalculoProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Container(
-        child: Table(
-          columnWidths: const <int, TableColumnWidth>{
-            0: FractionColumnWidth(.25),
-          },
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          border: TableBorder.all(),
-          children: [
-            TableRow(children: [
-              cellTitleBuilder('CV'),
-              cellTitleBuilder('GL'),
-              cellTitleBuilder('SQ'),
-              cellTitleBuilder('QM'),
-              cellTitleBuilder('Fcalc'),
-            ]),
-            TableRow(children: [
-              cellTitleBuilder('Regressão'),
-              cellBuilder(calc.glRegressao.toStringAsFixed(2)),
-              cellBuilder(calc.sqRegressao().toStringAsFixed(2)),
-              cellBuilder(calc.quadradoMedioRegressao().toStringAsFixed(2)),
-              cellBuilder(calc.fCalculado().toStringAsFixed(2)),
-            ]),
-            TableRow(children: [
-              cellTitleBuilder('Residuo'),
-              cellBuilder(calc.glResidual().toStringAsFixed(2)),
-              cellBuilder(calc.sqResidual().toStringAsFixed(2)),
-              cellBuilder(calc.quadradoMedioResidual().toStringAsFixed(2)),
-              cellBuilder('--'),
-            ]),
-            TableRow(children: [
-              cellTitleBuilder('Total'),
-              cellBuilder(calc.glTotal().toStringAsFixed(2)),
-              cellBuilder(calc.sqTotal().toStringAsFixed(2)),
-              cellBuilder('--'),
-              cellBuilder('--'),
-            ]),
-          ],
-        ),
+      child: Table(
+        columnWidths: const <int, TableColumnWidth>{
+          0: FractionColumnWidth(.25),
+        },
+        defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+        border: TableBorder.all(),
+        children: [
+          TableRow(children: [
+            cellTitleBuilder('CV'),
+            cellTitleBuilder('GL'),
+            cellTitleBuilder('SQ'),
+            cellTitleBuilder('QM'),
+            cellTitleBuilder('Fcalc'),
+          ]),
+          TableRow(children: [
+            cellTitleBuilder('Regressão'),
+            cellBuilder(calc.glRegressao.toStringAsFixed(2)),
+            cellBuilder(calc.sqRegressao().toStringAsFixed(2)),
+            cellBuilder(calc.quadradoMedioRegressao().toStringAsFixed(2)),
+            cellBuilder(calc.fCalculado().toStringAsFixed(2)),
+          ]),
+          TableRow(children: [
+            cellTitleBuilder('Residuo'),
+            cellBuilder(calc.glResidual().toStringAsFixed(2)),
+            cellBuilder(calc.sqResidual().toStringAsFixed(2)),
+            cellBuilder(calc.quadradoMedioResidual().toStringAsFixed(2)),
+            cellBuilder('--'),
+          ]),
+          TableRow(children: [
+            cellTitleBuilder('Total'),
+            cellBuilder(calc.glTotal().toStringAsFixed(2)),
+            cellBuilder(calc.sqTotal().toStringAsFixed(2)),
+            cellBuilder('--'),
+            cellBuilder('--'),
+          ]),
+        ],
       ),
     );
   }
@@ -59,7 +57,7 @@ class ResultsPage extends StatelessWidget {
       child: Center(
           child: Text(
         text,
-        style: TextStyle(fontWeight: FontWeight.w600),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       )),
     );
   }

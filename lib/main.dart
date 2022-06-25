@@ -21,29 +21,41 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int currentPage = 0;
-  List<Widget> pages = [HomePage(), ResultsPage()];
+  List<Widget> pages = [const HomePage(), const ResultsPage()];
 
   @override
   Widget build(BuildContext context) {
     final calc = Provider.of<CalculoProvider>(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Cálculo de Variância'),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  calc.removeAll();
-                },
-                icon: const Icon(Icons.refresh))
-          ],
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage('images/background-calc.png'),
+              ),
+            ),
+          ),
+          elevation: 0,
+          toolbarHeight: 100,
+          centerTitle: true,
+          title: const Text(
+            'Cálculo de Variância',
+            style: TextStyle(fontSize: 24),
+          ),
         ),
         body: SingleChildScrollView(child: pages[currentPage]),
         bottomNavigationBar: NavigationBar(
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
           selectedIndex: currentPage,
           destinations: [
-            NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+            const NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
             NavigationDestination(
               icon: Icon(
                 Icons.calculate,

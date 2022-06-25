@@ -121,17 +121,17 @@ class CalculoProvider extends ChangeNotifier {
 
   double somaXQuadrado() {
     double soma = 0;
-    listaX.forEach((element) {
+    for (var element in listaX) {
       soma += pow(element, 2);
-    });
+    }
     return soma;
   }
 
   double somaYQuadrado() {
     double soma = 0;
-    listaY.forEach((element) {
+    for (var element in listaY) {
       soma += pow(element, 2);
-    });
+    }
     return soma;
   }
 
