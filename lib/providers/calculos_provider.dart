@@ -27,16 +27,19 @@ class CalculoProvider extends ChangeNotifier {
     return listaX.length == listaY.length ? true : false;
   }
 
-  bool isValidated() {
+  bool isValidated = false;
+
+  void setValidated() {
     if (listaX.isNotEmpty &&
         listaY.isNotEmpty &&
         isEqual() &&
         _n != 0 &&
         _glRegressao != 0) {
-      return true;
+      isValidated = true;
     } else {
-      return false;
+      isValidated = false;
     }
+    notifyListeners();
   }
 
   String seeXList() {

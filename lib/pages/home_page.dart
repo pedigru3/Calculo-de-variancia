@@ -15,10 +15,10 @@ class _HomePageState extends State<HomePage> {
   late FocusNode myFocusNodeY;
   late FocusNode myFocusNodeX;
 
-  final TextEditingController _nController = TextEditingController();
-  final TextEditingController _glrController = TextEditingController();
-  final TextEditingController _xController = TextEditingController();
-  final TextEditingController _yController = TextEditingController();
+  final _nController = TextEditingController();
+  final _glrController = TextEditingController();
+  final _xController = TextEditingController();
+  final _yController = TextEditingController();
 
   @override
   void initState() {
@@ -75,6 +75,10 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         calc.n = int.tryParse(_nController.text);
                         calc.glRegressao = int.tryParse(_glrController.text);
+                        calc.setValidated();
+                        if (!calc.isValidated) {
+                          errorMessage(context);
+                        }
                       },
                       style: ElevatedButton.styleFrom(primary: Colors.black),
                       child: const Text('Calcular'),
@@ -84,13 +88,14 @@ class _HomePageState extends State<HomePage> {
                 ElevatedButton(
                   onPressed: () {
                     calc.removeAll();
+                    calc.setValidated();
                   },
-                  child: Text('Limpar tudo'),
+                  child: const Text('Limpar tudo'),
                 ),
               ],
             ),
           ),
-          Divider(),
+          const Divider(),
           Row(
             children: [
               titleListBuilder('Lista de X'),
@@ -148,11 +153,19 @@ class _HomePageState extends State<HomePage> {
             fixedSize: const Size(20, 55),
           ),
           onPressed: () {
-            setState(() {
-              function(double.tryParse(controller.text));
-              controller.text = '';
-              focusNodeOut.requestFocus();
-            });
+            if (controller.text == '' ||
+                double.tryParse(controller.text) == null) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  duration: Duration(seconds: 1),
+                  backgroundColor: Colors.red,
+                  content: Text('Valor inválido!')));
+            } else {
+              setState(() {
+                function(double.tryParse(controller.text));
+                controller.text = '';
+                focusNodeOut.requestFocus();
+              });
+            }
           },
           child: const Icon(Icons.add),
         ),
@@ -196,5 +209,14 @@ class _HomePageState extends State<HomePage> {
             );
           }),
     );
+  }
+
+  void errorMessage(BuildContext context) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      backgroundColor: Colors.blue,
+      content: Text('Algo deu errado. Verifique os valores.'),
+      duration: Duration(seconds: 2),
+    ));
   }
 }
